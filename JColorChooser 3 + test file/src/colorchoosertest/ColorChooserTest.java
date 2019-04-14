@@ -6,6 +6,8 @@
 package colorchoosertest;
 
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowListener;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +26,6 @@ public class ColorChooserTest extends javax.swing.JFrame {
         initComponents();
         listeners = new Vector();
         addColorListener(colorButton1);
-        addColorListener(colorButton2);
     }
     
     /**
@@ -37,23 +38,14 @@ public class ColorChooserTest extends javax.swing.JFrame {
     private void initComponents() {
 
         colorButton1 = new colorchoosertest.ColorButton();
-        colorButton2 = new colorchoosertest.ColorButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         colorButton1.setText("Choose Text Color");
-        colorButton1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        colorButton1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         colorButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 colorButton1ActionPerformed(evt);
-            }
-        });
-
-        colorButton2.setText("Change Text Color");
-        colorButton2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        colorButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                colorButton2ActionPerformed(evt);
             }
         });
 
@@ -63,18 +55,14 @@ public class ColorChooserTest extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(colorButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(colorButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE))
+                .addComponent(colorButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(colorButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(colorButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                .addComponent(colorButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -83,15 +71,17 @@ public class ColorChooserTest extends javax.swing.JFrame {
 
     private void colorButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorButton1ActionPerformed
             CC.setVisible(true);
-            CC.setDefaultCloseOperation(CC.DISPOSE_ON_CLOSE);
+            addListener();
     }//GEN-LAST:event_colorButton1ActionPerformed
-
-    private void colorButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorButton2ActionPerformed
-        this.importedColor = CC.BC.getColor();
-        fireColorEvent(new ColorEvent(this, importedColor));        
-
-    }//GEN-LAST:event_colorButton2ActionPerformed
 public colorchooser.JColorChooser CC = new colorchooser.JColorChooser();
+public void addListener(){
+    CC.addWindowListener(new WindowAdapter(){
+    @Override
+    public void windowDeactivated(java.awt.event.WindowEvent e) {
+        fireColorEvent(new ColorEvent(this, CC.BC.getColor()));    
+    }
+});
+}
     /**
      * @param args the command line arguments
      */
@@ -152,6 +142,5 @@ public colorchooser.JColorChooser CC = new colorchooser.JColorChooser();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private colorchoosertest.ColorButton colorButton1;
-    private colorchoosertest.ColorButton colorButton2;
     // End of variables declaration//GEN-END:variables
 }

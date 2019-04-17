@@ -5,47 +5,32 @@
  */
 package colorchooser;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
+import javax.swing.text.Document;
 
 /**
  *
  * @author sarahatterbury
  */
-public class ColorDisplayLabel extends JTextField implements KeyListener{
+public class ColorDisplayLabel extends JTextField {
 
     
     public ColorDisplayLabel(){
-        super();
-        setText("0");
-        addKeyListener(this);
-        
+        super(); 
     }
     
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        
-        String text = getText();
-        if(text.matches("^$")){
-            return;
+    protected Document createDefaultModel(){
+       
+        String[] accept = new String[256];
+          
+        for (int i =0; i <= 255; i++){
+            accept[i] = Integer.toString(i);
         }
         
-        if(!text.matches("\\b(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\b")){
-            JOptionPane.showMessageDialog(this, "Sorry! Your value must be between 0 and 255 to produce a valid color.");
-            setText("0");
-        }
-
+        return new ColorDocument(accept);
     }
 
 }
